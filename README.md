@@ -1,14 +1,14 @@
-[![build](https://img.shields.io/travis/mariocasciaro/object-path-immutable.svg?style=flat-square)](https://travis-ci.org/mariocasciaro/object-path-immutable)
-[![coverage](https://img.shields.io/coveralls/mariocasciaro/object-path-immutable.svg?style=flat-square)](https://coveralls.io/r/mariocasciaro/object-path-immutable)
-[![downloads](https://img.shields.io/npm/dm/object-path-immutable.svg?style=flat-square)](https://www.npmjs.com/package/object-path-immutable)
-[![version](https://img.shields.io/npm/v/object-path-immutable.svg?style=flat-square)](https://www.npmjs.com/package/object-path-immutable)
-[![deps](https://img.shields.io/david/mariocasciaro/object-path-immutable.svg?style=flat-square)](https://david-dm.org/mariocasciaro/object-path-immutable)
-[![devdeps](https://img.shields.io/david/dev/mariocasciaro/object-path-immutable.svg?style=flat-square)](https://david-dm.org/mariocasciaro/object-path-immutable#info=devDependencies)
+[![build](https://img.shields.io/travis/rowrowrowrow/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://travis-ci.org/rowrowrowrow/object-path-immutable-rowrowrowrow)
+[![coverage](https://img.shields.io/coveralls/rowrowrowrow/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://coveralls.io/r/rowrowrowrow/object-path-immutable-rowrowrowrow)
+[![downloads](https://img.shields.io/npm/dm/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://www.npmjs.com/package/object-path-immutable-rowrowrowrow)
+[![version](https://img.shields.io/npm/v/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://www.npmjs.com/package/object-path-immutable-rowrowrowrow)
+[![deps](https://img.shields.io/david/rowrowrowrow/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://david-dm.org/rowrowrowrow/object-path-immutable-rowrowrowrow)
+[![devdeps](https://img.shields.io/david/dev/rowrowrowrow/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://david-dm.org/rowrowrowrow/object-path-immutable-rowrowrowrow#info=devDependencies)
 
 object-path-immutable-rowrowrowrow
 ===========
 
-This repo is based on https://github.com/mariocasciaro/object-path-immutable with added features. Please checkout that repo for more information.
+This repo is based on https://github.com/rowrowrowrow/object-path-immutable with added features. Please checkout that repo for more information.
 
 Tiny JS library to modify deep object properties without modifying the original object (immutability).
 Works great with React (especially when using `setState()`) and Redux (inside a reducer).
@@ -17,11 +17,11 @@ This can be seen as a simpler and more intuitive alternative to the *React Immut
 
 ## Please see the basis for this repo
 
-[object-path-immutable](https://github.com/mariocasciaro/object-path-immutable)
+[object-path-immutable](https://github.com/rowrowrowrow/object-path-immutable)
 
 ## Install
 
-    npm install object-path-immutable-rowrowrowrow --save
+    npm install object-path-immutable-rowrowrowrow-rowrowrowrow --save
 
 ## Quick usage
 
@@ -81,7 +81,7 @@ const obj = {
   }
 };
 
-import immutable from 'object-path-immutable'
+import immutable from 'object-path-immutable-rowrowrowrow'
 ```
 #### get (initialObject, path, defaultValue, matchThenMap)
 

@@ -241,14 +241,14 @@ api.set = function set (dest, src, path, value, matchThenMap) {
   }, matchThenMap)
 }
 
-api.update = function update (dest, src, path, updater) {
+api.update = function update (dest, src, path, updater, matchThenMap) {
   if (isEmpty(path)) {
     return updater(clone(src))
   }
   return changeImmutable(dest, src, path, function (clonedObj, finalPath) {
     clonedObj[finalPath] = updater(clonedObj[finalPath])
     return clonedObj
-  })
+  }, matchThenMap)
 }
 
 api.push = function push (dest, src, path /*, values */) {
