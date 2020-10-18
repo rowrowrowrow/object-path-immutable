@@ -1,4 +1,4 @@
-import { isPlainObject } from 'is-plain-object';
+import { isPlainObject } from 'is-plain-object'
 var _hasOwnProperty = Object.prototype.hasOwnProperty
 
 function isEmpty (value) {
@@ -70,37 +70,6 @@ function getKey (key) {
     return intKey
   }
   return key
-}
-
-var objectPathImmutable = function (src) {
-  var dest = src
-  var committed = false
-
-  var transaction = Object.keys(api).reduce(function (proxy, prop) {
-    /* istanbul ignore else */
-    if (typeof api[prop] === 'function') {
-      proxy[prop] = function () {
-        var args = [dest, src].concat(Array.prototype.slice.call(arguments))
-
-        if (committed) {
-          throw new Error('Cannot call ' + prop + ' after `value`')
-        }
-
-        dest = api[prop].apply(null, args)
-
-        return transaction
-      }
-    }
-
-    return proxy
-  }, {})
-
-  transaction.value = function () {
-    committed = true
-    return dest
-  }
-
-  return transaction
 }
 
 function clone (obj, createIfEmpty, assumeArray) {
@@ -344,6 +313,37 @@ api.merge = function assign (dest, src, path, source) {
     clonedObj[finalPath] = deepMerge(clonedObj[finalPath], source)
     return clonedObj
   })
+}
+
+export function wrap (src) {
+  var dest = src
+  var committed = false
+
+  var transaction = Object.keys(api).reduce(function (proxy, prop) {
+    /* istanbul ignore else */
+    if (typeof api[prop] === 'function') {
+      proxy[prop] = function () {
+        var args = [dest, src].concat(Array.prototype.slice.call(arguments))
+
+        if (committed) {
+          throw new Error('Cannot call ' + prop + ' after `value`')
+        }
+
+        dest = api[prop].apply(null, args)
+
+        return transaction
+      }
+    }
+
+    return proxy
+  }, {})
+
+  transaction.value = function () {
+    committed = true
+    return dest
+  }
+
+  return transaction
 }
 
 export var set = api.set.bind(null, null)
