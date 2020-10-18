@@ -1,14 +1,13 @@
-[![build](https://img.shields.io/travis/rowrowrowrow/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://travis-ci.org/rowrowrowrow/object-path-immutable-rowrowrowrow)
-[![coverage](https://img.shields.io/coveralls/rowrowrowrow/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://coveralls.io/r/rowrowrowrow/object-path-immutable-rowrowrowrow)
-[![downloads](https://img.shields.io/npm/dm/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://www.npmjs.com/package/object-path-immutable-rowrowrowrow)
-[![version](https://img.shields.io/npm/v/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://www.npmjs.com/package/object-path-immutable-rowrowrowrow)
-[![deps](https://img.shields.io/david/rowrowrowrow/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://david-dm.org/rowrowrowrow/object-path-immutable-rowrowrowrow)
-[![devdeps](https://img.shields.io/david/dev/rowrowrowrow/object-path-immutable-rowrowrowrow.svg?style=flat-square)](https://david-dm.org/rowrowrowrow/object-path-immutable-rowrowrowrow#info=devDependencies)
-
 object-path-immutable-rowrowrowrow
 ===========
 
-This repo is based on https://github.com/rowrowrowrow/object-path-immutable with added features. Please checkout that repo for more information.
+This repo is based on https://github.com/mariocasciaro/object-path-immutable with added features. Namely the following:
+
+1. Get method is not imported from https://github.com/mariocasciaro/object-path.
+2. Support performing some methods recursively on all items in a deepset array.
+3. Adds an ensureExists method which does not mutate the source if the target property is set.
+
+Please checkout mariocasciaro's repo for more information.
 
 Tiny JS library to modify deep object properties without modifying the original object (immutability).
 Works great with React (especially when using `setState()`) and Redux (inside a reducer).
@@ -21,7 +20,7 @@ This can be seen as a simpler and more intuitive alternative to the *React Immut
 
 ## Install
 
-    npm install object-path-immutable-rowrowrowrow-rowrowrowrow --save
+    npm install object-path-immutable-rowrowrowrow --save
 
 ## Quick usage
 
@@ -47,16 +46,18 @@ const newObj = immutable.set(obj, 'a.b', 'f')
 
 // obj !== newObj
 // obj.a !== newObj.a
-// obj.b !== newObj.b
+// obj.a.b !== newObj.a.b
 
 // However:
-// obj.c === newObj.c
+// obj.a.c === newObj.a.c
 ```
 
-Note that you can also chain the api's and call `value()` at the end to retrieve the resulting object.
+### Wrap mode
+
+You can also chain the api's and call `value()` at the end to retrieve the resulting object.
 
 ```javascript
-const newObj = immutable(obj).set('a.b', 'f').del('a.c.0').value()
+const newObj = immutable.wrap(obj).set('a.b', 'f').del('a.c.0').value()
 ```
 
 ## API
@@ -97,7 +98,7 @@ const existingObject1 = immutable.get(obj, 'a.MAP.g', 'f',['MAP'])
 
 const existingObject2 = immutable.get(obj, ['a', 'MAP','i'], 'f',['MAP'])
 
-// ['j1','j2']
+import * as immutable from 'object-path-immutable'
 ```
 
 #### set (initialObject, path, value)
@@ -226,72 +227,8 @@ Deep merge properties.
 const newObj = immutable.merge(obj, 'a.c', {b: 'd'})
 ```
 
-#### ensureExists (initialObject, path, defaultValue, matchThenMap)
+### Getters (not available in wrap mode)
 
-Checks if an objects value exists, if not return a new object with the updated value, else return the source object without changes.
+#### get (object, path, defaultValue)
 
-- Path can be either a string or an array.
-- matchThenMap is an array of keys that once matched in the object will propogate the path, defaultValue, and matchThenMap to all array values returning an array of values.
-
-```javascript
-const newObject1 = immutable.ensureExists(obj, 'a.z', 'f')
-
-// {
-//   a: {
-//     b: 'f',
-//     c: ['d', 'f'],
-//     'MAP': [
-//       {
-//         g: 'h1',
-//         i: 'j1'
-//       },
-//       {
-//         g: 'h2',
-//         i: 'j2'
-//       },
-//     ],
-//     z: 'f'
-//   }
-// }
-
-const newObject2 = immutable.ensureExists(obj, 'a.MAP.z', 'f',['MAP'])
-
-// {
-//   a: {
-//     b: 'f',
-//     c: ['d', 'f'],
-//     'MAP': [
-//       {
-//         g: 'h1',
-//         i: 'j1',
-//         z:'f'
-//       },
-//       {
-//         g: 'h2',
-//         i: 'j2',
-//         z:'f'
-//       },
-//     ],
-//     z: 'f'
-//   }
-// }
-
-const unchangedObject = immutable.get(obj, ['a', 'MAP','g'], 'f',['MAP'])
-
-// {
-//   a: {
-//     b: 'f',
-//     c: ['d', 'f'],
-//     'MAP': [
-//       {
-//         g: 'h1',
-//         i: 'j1'
-//       },
-//       {
-//         g: 'h2',
-//         i: 'j2'
-//       },
-//     ]
-//   }
-// }
-```
+Not mported from [object-path](https://github.com/mariocasciaro/object-path) so as to allow recursive get on deepset arrays.
