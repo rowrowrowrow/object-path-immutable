@@ -353,7 +353,7 @@
     })
   };
 
-  function wrap (src) {
+  const wrap = (src) => {
     var dest = src;
     var committed = false;
 
@@ -382,7 +382,7 @@
     };
 
     return transaction
-  }
+  };
 
   var set = api.set.bind(null, null);
   var update = api.update.bind(null, null);

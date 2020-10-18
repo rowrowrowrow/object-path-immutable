@@ -315,7 +315,7 @@ api.merge = function assign (dest, src, path, source) {
   })
 }
 
-export function wrap (src) {
+export const wrap = (src) => {
   var dest = src
   var committed = false
 
