@@ -14,9 +14,9 @@ Works great with React (especially when using `setState()`) and Redux (inside a 
 
 This can be seen as a simpler and more intuitive alternative to the *React Immutability Helpers* and *Immutable.js*.
 
-## Changelog
+## Please see the basis for this repo
 
-[View Changelog](CHANGELOG.md)
+[object-path-immutable](https://github.com/rowrowrowrow/object-path-immutable)
 
 ## Install
 
@@ -67,10 +67,36 @@ const newObj = immutable.wrap(obj).set('a.b', 'f').del('a.c.0').value()
 
 const obj = {
   a: {
-    b: 'c',
-    c: ['d', 'f']
+    b: 'f',
+    c: ['d', 'f'],
+    'MAP': [
+      {
+        g: 'h1',
+        i: 'j1'
+      },
+      {
+        g: 'h2',
+        i: 'j2'
+      },
+    ]
   }
-}
+};
+
+import immutable from 'object-path-immutable-rowrowrowrow'
+```
+#### get (initialObject, path, defaultValue, matchThenMap)
+
+Return an object property or array of object properties.
+
+- Path can be either a string or an array.
+- matchThenMap is an array of keys that once matched in the object will propogate the path, defaultValue, and matchThenMap to all array values returning an array of values.
+
+```javascript
+const existingObject1 = immutable.get(obj, 'a.MAP.g', 'f',['MAP'])
+
+// ['h1','h2']
+
+const existingObject2 = immutable.get(obj, ['a', 'MAP','i'], 'f',['MAP'])
 
 import * as immutable from 'object-path-immutable'
 ```

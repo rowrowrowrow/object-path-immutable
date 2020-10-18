@@ -44,6 +44,7 @@
     "path",
     "access",
     "get",
+    "ensureExists",
     "property",
     "dot",
     "prop",
