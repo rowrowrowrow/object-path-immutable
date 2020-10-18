@@ -1,4 +1,4 @@
-var isPlainObject = require('is-plain-object')
+import { isPlainObject } from 'is-plain-object';
 var _hasOwnProperty = Object.prototype.hasOwnProperty
 
 function isEmpty (value) {
@@ -346,12 +346,11 @@ api.merge = function assign (dest, src, path, source) {
   })
 }
 
-module.exports = Object.keys(api).reduce(function (objectPathImmutable, method) {
-  if (method !== 'get') {
-    objectPathImmutable[method] = api[method].bind(null, null)
-  } else {
-    objectPathImmutable[method] = api[method]
-  }
-
-  return objectPathImmutable
-}, objectPathImmutable)
+export var set = api.set.bind(null, null)
+export var update = api.update.bind(null, null)
+export var push = api.push.bind(null, null)
+export var insert = api.insert.bind(null, null)
+export var del = api.del.bind(null, null)
+export var assign = api.assign.bind(null, null)
+export var merge = api.merge.bind(null, null)
+export var get = api.get

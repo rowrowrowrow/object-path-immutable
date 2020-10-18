@@ -1,19 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.objectPathImmutable = factory());
-}(this, function () { 'use strict';
-
-  /*!
-   * isobject <https://github.com/jonschlinkert/isobject>
-   *
-   * Copyright (c) 2014-2017, Jon Schlinkert.
-   * Released under the MIT License.
-   */
-
-  function isObject(val) {
-    return val != null && typeof val === 'object' && Array.isArray(val) === false;
-  }
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = global || self, factory(global.objectPathImmutable = {}));
+}(this, (function (exports) { 'use strict';
 
   /*!
    * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
@@ -22,23 +11,22 @@
    * Released under the MIT License.
    */
 
-  function isObjectObject(o) {
-    return isObject(o) === true
-      && Object.prototype.toString.call(o) === '[object Object]';
+  function isObject(o) {
+    return Object.prototype.toString.call(o) === '[object Object]';
   }
 
   function isPlainObject(o) {
     var ctor,prot;
 
-    if (isObjectObject(o) === false) return false;
+    if (isObject(o) === false) return false;
 
     // If has modified constructor
     ctor = o.constructor;
-    if (typeof ctor !== 'function') return false;
+    if (ctor === undefined) return true;
 
     // If has modified prototype
     prot = ctor.prototype;
-    if (isObjectObject(prot) === false) return false;
+    if (isObject(prot) === false) return false;
 
     // If constructor does not have an Object-specific method
     if (prot.hasOwnProperty('isPrototypeOf') === false) {
@@ -121,37 +109,6 @@
     }
     return key
   }
-
-  var objectPathImmutable = function (src) {
-    var dest = src;
-    var committed = false;
-
-    var transaction = Object.keys(api).reduce(function (proxy, prop) {
-      /* istanbul ignore else */
-      if (typeof api[prop] === 'function') {
-        proxy[prop] = function () {
-          var args = [dest, src].concat(Array.prototype.slice.call(arguments));
-
-          if (committed) {
-            throw new Error('Cannot call ' + prop + ' after `value`')
-          }
-
-          dest = api[prop].apply(null, args);
-
-          return transaction
-        };
-      }
-
-      return proxy
-    }, {});
-
-    transaction.value = function () {
-      committed = true;
-      return dest
-    };
-
-    return transaction
-  };
 
   function clone (obj, createIfEmpty, assumeArray) {
     if (obj == null) {
@@ -291,14 +248,14 @@
     }, matchThenMap)
   };
 
-  api.update = function update (dest, src, path, updater) {
+  api.update = function update (dest, src, path, updater, matchThenMap) {
     if (isEmpty(path)) {
       return updater(clone(src))
     }
     return changeImmutable(dest, src, path, function (clonedObj, finalPath) {
       clonedObj[finalPath] = updater(clonedObj[finalPath]);
       return clonedObj
-    })
+    }, matchThenMap)
   };
 
   api.push = function push (dest, src, path /*, values */) {
@@ -396,16 +353,24 @@
     })
   };
 
-  var objectPathImmutable_1 = Object.keys(api).reduce(function (objectPathImmutable, method) {
-    if (method !== 'get') {
-      objectPathImmutable[method] = api[method].bind(null, null);
-    } else {
-      objectPathImmutable[method] = api[method];
-    }
+  var set = api.set.bind(null, null);
+  var update = api.update.bind(null, null);
+  var push = api.push.bind(null, null);
+  var insert = api.insert.bind(null, null);
+  var del = api.del.bind(null, null);
+  var assign = api.assign.bind(null, null);
+  var merge = api.merge.bind(null, null);
+  var get = api.get;
 
-    return objectPathImmutable
-  }, objectPathImmutable);
+  exports.assign = assign;
+  exports.del = del;
+  exports.get = get;
+  exports.insert = insert;
+  exports.merge = merge;
+  exports.push = push;
+  exports.set = set;
+  exports.update = update;
 
-  return objectPathImmutable_1;
+  Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
