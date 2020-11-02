@@ -1,6 +1,6 @@
 {
   "name": "object-path-immutable-rowrowrowrow",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Based on https://github.com/mariocasciaro/object-path-immutable with added features.",
   "author": "David Rosenbloom <darosenbloom@gmail.com>",
   "license": "MIT",
@@ -13,8 +13,8 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "main": "cjs/object-path-immutable.js",
-  "module": "esm/object-path-immutable.js",
+  "main": "cjs/object-path-immutable-rowrowrowrow.js",
+  "module": "esm/object-path-immutable-rowrowrowrow.js",
   "sideEffects": false,
   "scripts": {
     "build": "rollup -c",
