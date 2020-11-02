@@ -130,14 +130,15 @@ function _changeImmutable (dest, src, path, changeCallback, matchThenMap) {
     src = src[currentPath]
   }
 
+  const nextPath = path.slice(1);
+
   if (!isEmpty(matchThenMap) && isArray(src) && isInArray(currentPath, matchThenMap)) {
-    path.shift()
     dest[currentPath] = src
       .map(i => {
-        return _changeImmutable(dest[currentPath], src, path.slice(1), changeCallback, matchThenMap)
+        return _changeImmutable(dest[currentPath], src, nextPath, changeCallback, matchThenMap)
       })
   } else {
-    dest[currentPath] = _changeImmutable(dest[currentPath], src, path.slice(1), changeCallback, matchThenMap)
+    dest[currentPath] = _changeImmutable(dest[currentPath], src, nextPath, changeCallback, matchThenMap)
   }
 
   return dest
@@ -161,11 +162,12 @@ api.get = function get (src, path, defaultValue, matchThenMap) {
 
   var currentPath = path[0]
 
+  const nextPath = path.slice(1);
+
   if (!isEmpty(matchThenMap) && isArray(src) && isInArray(currentPath, matchThenMap)) {
-    path.shift()
     return src
       .map(i => {
-        return api.get(i, path, defaultValue, matchThenMap)
+        return api.get(i, nextPath, defaultValue, matchThenMap)
       })
   }
 
